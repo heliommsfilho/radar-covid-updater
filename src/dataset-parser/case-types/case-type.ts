@@ -1,10 +1,10 @@
 export type CaseType = {
-    all: number | undefined;
-    north: number | undefined;
-    center: number | undefined;
-    lvt: number | undefined;
-    alentejo: number | undefined;
-    algarve: number | undefined;
-    acores: number | undefined;
-    madeira: number | undefined;
+    all: string;
+    north?: string | undefined;
+    center?: string | undefined;
+    lvt?: string | undefined;
+    alentejo?: string | undefined;
+    algarve?: string | undefined;
+    acores?: string | undefined;
+    madeira?: string | undefined;
 }
