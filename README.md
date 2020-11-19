@@ -8,6 +8,10 @@ https://covid19-api.vost.pt/Requests/get_full_dataset
 
 and parses the JSON to our MongoDB structure.
 
+## Requirements
+
+- A running instance of MongoDB
+
 ## Setup project
 ```
 npm install
