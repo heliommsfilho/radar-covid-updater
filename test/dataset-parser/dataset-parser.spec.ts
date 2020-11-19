@@ -1,7 +1,7 @@
 import { DatasetParser } from "../../src/dataset-parser/dataset-parser";
 import { expect } from "chai";
-import { CaseType } from "../../src/dataset-parser/case-types/case-type";
-import { Active, Confirmed, Dead, Recovered, Suspect } from "../../src/dataset-parser/case-types/case-incidence";
+import { CaseType } from "../../src/dataset-parser/case-types/case.type";
+import { Active, Confirmed, Dead, Recovered, Suspect } from "../../src/dataset-parser/case-types/case-incidence.type";
 
 class DatasetParserDouble extends DatasetParser {
 

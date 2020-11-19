@@ -1,21 +1,21 @@
 {
-  "name": "covid-info-api",
+  "name": "radar-covid-updater",
   "version": "1.0.0",
-  "description": "",
+  "description": "Updates COVID-19 cases from official API",
   "main": "index.js",
   "scripts": {
     "test": "mocha -r ts-node/register test/**/*spec.ts"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/heliommsfilho/covid-info-api.git"
+    "url": "git+https://github.com/heliommsfilho/radar-covid-updater.git"
   },
-  "author": "",
+  "author": "Hélio Márcio Filho",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/heliommsfilho/covid-info-api/issues"
+    "url": "https://github.com/heliommsfilho/radar-covid-updater/issues"
   },
-  "homepage": "https://github.com/heliommsfilho/covid-info-api#readme",
+  "homepage": "https://github.com/heliommsfilho/radar-covid-updater",
   "devDependencies": {
     "@types/chai": "^4.2.14",
     "@types/mocha": "^8.0.4",
@@ -24,7 +24,9 @@
     "ts-node": "^9.0.0"
   },
   "dependencies": {
+    "@types/mongoose": "^5.10.0",
     "moment": "^2.29.1",
+    "mongoose": "^5.10.15",
     "tslint": "^6.1.3",
     "typescript": "^4.0.5"
   }

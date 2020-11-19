@@ -1,9 +1,14 @@
 import moment from 'moment';
 import { Dataset } from "./dataset";
-import { Control } from "./case-types/case-incidence";
-import { CaseNumber } from './case-types/case-number';
-import { CaseType } from './case-types/case-type';
+import { Control } from "./case-types/case-incidence.type";
+import { CaseType } from './case-types/case.type';
 
+/**
+ * Parser to transform raw COVID-19 API data.
+ *
+ * @author Hélio Márcio Filho <heliommsfilho@gmail.com>
+ * @since 1.0.0
+ */
 export class DatasetParser {
 
     pandemicDays: any;
@@ -14,50 +19,62 @@ export class DatasetParser {
         this.parsedDayList = Object.keys(this.pandemicDays).map(key => this.parseDate(this.pandemicDays[key]));
     }
 
-    public transform(caseType: CaseType): Map<string, CaseNumber> {
-        const outputMap = new Map<string, CaseNumber>();
+    /***
+     * Transforms a specific case type raw information to the format ready to be saved.
+     *
+     * @param caseType type of the case (Active, Suspect, Confirmed...).
+     *
+     * @returns map containing transformed data.
+     */
+    public transform(caseType: CaseType): Map<string, any> {
+        const outputMap = new Map<string, any>();
 
         const all       = this.getCases(caseType.all);
-        const north     = caseType.north    ? this.getCases(caseType.north)     : undefined;
-        const center    = caseType.center   ? this.getCases(caseType.center)    : undefined;
-        const lvt       = caseType.lvt      ? this.getCases(caseType.lvt)       : undefined;
-        const alentejo  = caseType.alentejo ? this.getCases(caseType.alentejo)  : undefined;
-        const algarve   = caseType.algarve  ? this.getCases(caseType.algarve)   : undefined;
-        const acores    = caseType.acores   ? this.getCases(caseType.acores)    : undefined;
-        const madeira   = caseType.madeira  ? this.getCases(caseType.madeira)   : undefined;
+        const north     = this.getCases(caseType.north);
+        const center    = this.getCases(caseType.center);
+        const lvt       = this.getCases(caseType.lvt);
+        const alentejo  = this.getCases(caseType.alentejo);
+        const algarve   = this.getCases(caseType.algarve);
+        const acores    = this.getCases(caseType.acores);
+        const madeira   = this.getCases(caseType.madeira);
 
-        this.parsedDayList.forEach((day: string) => outputMap.set(day, this.createCaseInstance(day, all, north, center, lvt, alentejo, algarve, acores, madeira)));
+        this.parsedDayList.forEach((day: string) => outputMap.set(day, { all: all.get(day), north: north.get(day), center: center.get(day), lvt: lvt.get(day),
+                                                                         alentejo: alentejo.get(day), algarve: algarve.get(day), acores: acores.get(day),
+                                                                         madeira: madeira.get(day) }));
 
         return outputMap;
     }
 
-    protected getCases(incidenType: string): Map<string, number> {
-        const data = Dataset.getDataset()[incidenType];
+    /**
+     * Transforms a specific type of incidence data case into a map which the key is the date int YYYY_MM_DD format.
+     *
+     * @param incidenType type of the incidence case.
+     *
+     * @returns map containing number of cases by date (the key is day).
+     */
+    protected getCases(incidenType: string | undefined): Map<string, number> {
         const outputDataMap = new Map();
 
-        Object.keys(data).forEach(key => {
-            const day = this.pandemicDays[key];
-            const mapKey = this.parseDate(day);
-            outputDataMap.set(mapKey, data[key]);
-        });
+        if (incidenType) {
+            const data = Dataset.getDataset()[incidenType];
+
+            Object.keys(data).forEach(key => {
+                const day = this.pandemicDays[key];
+                const mapKey = this.parseDate(day);
+                outputDataMap.set(mapKey, data[key]);
+            });
+        }
 
         return outputDataMap;
     }
 
-    private createCaseInstance(day: string, all: Map<string, number>, north?: Map<string, number>, center?: Map<string, number>, lvt?: Map<string, number>,
-                               alentejo?: Map<string, number>, algarve?: Map<string, number>, acores?: Map<string, number>, madeira?: Map<string, number>) : CaseNumber {
-        return {
-            all: all.get(day),
-            north: north?.get(day),
-            center: center?.get(day),
-            lvt: lvt?.get(day),
-            alentejo: alentejo?.get(day),
-            algarve: algarve?.get(day),
-            acores: acores?.get(day),
-            madeira: madeira?.get(day)
-        };
-    }
-
+    /**
+     * Converts a date to YYYY_MM_DD format.
+     *
+     * @param inputDate date in DD-MM-YYYY format.
+     *
+     * @returns converted date in YYYY_MM_DD format.
+     */
     private parseDate(inputDate: string): string {
         return moment(inputDate, 'DD-MM-YYYY').format('YYYY_MM_DD');
     }
