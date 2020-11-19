@@ -24,7 +24,9 @@
     "ts-node": "^9.0.0"
   },
   "dependencies": {
+    "@types/axios": "^0.14.0",
     "@types/mongoose": "^5.10.0",
+    "axios": "^0.21.0",
     "moment": "^2.29.1",
     "mongoose": "^5.10.15",
     "tslint": "^6.1.3",

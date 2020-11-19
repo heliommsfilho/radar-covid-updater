@@ -7,7 +7,7 @@ export class ApplicationDatabase {
 
     public async updateDatabase() {
         this.connect();
-        const datasetParser = new DatasetParser();
+        const datasetParser = await DatasetParser.getInstance();
 
         const active    = this.getDatabaseObject(datasetParser.transform({ all: Active.ALL }), false);
         const suspect   = this.getDatabaseObject(datasetParser.transform({ all: Suspect.ALL }), false);

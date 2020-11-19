@@ -1,5 +1,5 @@
 import moment from 'moment';
-import { Dataset } from "./dataset";
+import { DatasetReader } from '../dataset-reader/dataset-reader';
 import { Control } from "./case-types/case-incidence.type";
 import { CaseType } from './case-types/case.type';
 
@@ -11,12 +11,19 @@ import { CaseType } from './case-types/case.type';
  */
 export class DatasetParser {
 
+    fullDataset: any;
     pandemicDays: any;
     parsedDayList: any;
 
-    constructor() {
-        this.pandemicDays = Dataset.getDataset()[Control.DATE];
+    protected constructor(fullDataset: any) {
+        this.fullDataset = fullDataset;
+        this.pandemicDays = this.fullDataset[Control.DATE];
         this.parsedDayList = Object.keys(this.pandemicDays).map(key => this.parseDate(this.pandemicDays[key]));
+    }
+
+    public static async getInstance() {
+        const fullDataset = await DatasetReader.downloadDataset();
+        return new DatasetParser(fullDataset);
     }
 
     /***
@@ -52,11 +59,11 @@ export class DatasetParser {
      *
      * @returns map containing number of cases by date (the key is day).
      */
-    protected getCases(incidenType: string | undefined): Map<string, number> {
+    public getCases(incidenType: string | undefined): Map<string, number> {
         const outputDataMap = new Map();
 
         if (incidenType) {
-            const data = Dataset.getDataset()[incidenType];
+            const data = this.fullDataset[incidenType];
 
             Object.keys(data).forEach(key => {
                 const day = this.pandemicDays[key];
