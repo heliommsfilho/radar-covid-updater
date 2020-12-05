@@ -1,4 +1,5 @@
 import { expect } from "chai";
+import { CronJob } from "cron";
 import { ApplicationDatabase } from "../../src/database/application-database";
 import { ActiveModel, ConfirmedModel, DeadModel, RecoveredModel, SuspectModel } from "../../src/database/case.model";
 import { DatasetReader } from "../../src/dataset-reader/dataset-reader";
