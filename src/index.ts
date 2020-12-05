@@ -10,6 +10,8 @@ import { ApplicationDatabase } from "./database/application-database";
         throw new Error('Cron job scheduling not defined');
     }
 
+    console.log('Covid Updater started successfully!');
+
     const job = new CronJob(process.env.CRON_SCHEDULING, async () => {
         const applicationRepository = new ApplicationDatabase();
         await applicationRepository.updateDatabase();
@@ -17,4 +19,5 @@ import { ApplicationDatabase } from "./database/application-database";
     }, null, true, 'Europe/Lisbon');
 
     job.start();
+    console.log(`Next execution at: ${job.nextDates().toString()}`);
 })();

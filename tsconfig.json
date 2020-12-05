@@ -8,6 +8,7 @@
     "rootDirs": ["./src", "./test"],
     "strict": true,
     "esModuleInterop": true,
-    "forceConsistentCasingInFileNames": true
+    "forceConsistentCasingInFileNames": true,
+    "noImplicitAny": true
   }
 }
