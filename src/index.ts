@@ -1,8 +1,16 @@
+import * as dotenv from "dotenv";
+
 import { CronJob } from "cron";
 import { ApplicationDatabase } from "./database/application-database";
 
 (() => {
-    const job = new CronJob('1 * * * * *', () => {
+    dotenv.config();
+
+    if (!process.env.CRON_SCHEDULING) {
+        throw new Error('Cron job scheduling not defined');
+    }
+
+    const job = new CronJob(process.env.CRON_SCHEDULING, () => {
         const applicationRepository = new ApplicationDatabase();
         applicationRepository.updateDatabase();
         console.log('Cases updated successfully!');

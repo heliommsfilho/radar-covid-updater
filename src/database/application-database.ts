@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import * as dotenv from "dotenv";
 import { Active, Suspect, Confirmed, Dead, Recovered } from "../dataset-parser/case-types/case-incidence.type";
 import { DatasetParser } from "../dataset-parser/dataset-parser";
 import { ActiveModel, ConfirmedModel, DeadModel, RecoveredModel, SuspectModel } from "./case.model";
@@ -6,6 +7,12 @@ import { ActiveModel, ConfirmedModel, DeadModel, RecoveredModel, SuspectModel } 
 export class ApplicationDatabase {
 
     public async updateDatabase() {
+        dotenv.config();
+
+        if (!process.env.MONGO_URL) {
+            throw new Error('MongoDB connection URL not defined');
+        }
+
         this.connect();
         const datasetParser = await DatasetParser.getInstance();
 
@@ -27,7 +34,9 @@ export class ApplicationDatabase {
     }
 
     private connect() {
-        mongoose.connect('mongodb://[::1]/radar_covid', { useNewUrlParser: true, useUnifiedTopology: true }, (err: any) => {
+        const mongoUrl = process.env.MONGO_URL ? process.env.MONGO_URL : '';
+
+        mongoose.connect(mongoUrl, { useNewUrlParser: true, useUnifiedTopology: true }, (err: any) => {
             if (err)  {
                 console.log(err.message);
             } else {
