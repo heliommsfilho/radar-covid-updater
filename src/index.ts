@@ -10,9 +10,9 @@ import { ApplicationDatabase } from "./database/application-database";
         throw new Error('Cron job scheduling not defined');
     }
 
-    const job = new CronJob(process.env.CRON_SCHEDULING, () => {
+    const job = new CronJob(process.env.CRON_SCHEDULING, async () => {
         const applicationRepository = new ApplicationDatabase();
-        applicationRepository.updateDatabase();
+        await applicationRepository.updateDatabase();
         console.log('Cases updated successfully!');
     }, null, true, 'Europe/Lisbon');
 
