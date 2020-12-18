@@ -1,4 +1,4 @@
-# Radar Covid Updater tool - Updates COVID-19 cases from official API
+# Radar COVID Updater tool - Updates COVID-19 cases from official API
 
 This project fetches the full dataset from official API:
 
