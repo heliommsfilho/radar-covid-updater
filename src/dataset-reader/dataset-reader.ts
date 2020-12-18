@@ -12,7 +12,9 @@ export class DatasetReader {
     }
 
     public static downloadDataset(): Promise<any> {
-        const covidApiUrl = process.env.COVID_API_URL ? process.env.COVID_API_URL : '';
+        dotenv.config();
+        const covidApiUrl = process.env.COVID_API_URL ? process.env.COVID_API_URL : 'Empty URL!';
+        console.log(`Downloading dataset from '${covidApiUrl}'`);
 
         return Axios.get(covidApiUrl)
                     .then(dataset => {

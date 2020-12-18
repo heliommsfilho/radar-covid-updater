@@ -57,7 +57,7 @@ export class ApplicationDatabase {
         RecoveredModel.deleteMany({}, () => console.info('Removed all from recovereds'));
     }
 
-    private getDatabaseObject(casesByDay: Map<string, any>, byRegion: boolean): any[] {
+    private getDatabaseObject(casesByDay: Map<number, any>, byRegion: boolean): any[] {
         const outputCases: any[] = [];
 
         casesByDay.forEach((cases, day) => {

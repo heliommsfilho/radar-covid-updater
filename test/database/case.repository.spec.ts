@@ -13,8 +13,6 @@ describe('Application Repository should:', () => {
 
         applicationRepository.updateDatabase();
 
-        const daysActive = (await ActiveModel.find()).length;
-        expect(daysActive).to.equal(datasetLength);
 
         const daysSuspect = (await SuspectModel.find()).length;
         expect(daysSuspect).to.equal(datasetLength);

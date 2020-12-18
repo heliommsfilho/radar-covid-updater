@@ -33,8 +33,8 @@ export class DatasetParser {
      *
      * @returns map containing transformed data.
      */
-    public transform(caseType: CaseType): Map<string, any> {
-        const outputMap = new Map<string, any>();
+    public transform(caseType: CaseType): Map<number, any> {
+        const outputMap = new Map<number, any>();
 
         const all       = this.getCases(caseType.all);
         const north     = this.getCases(caseType.north);
@@ -45,7 +45,7 @@ export class DatasetParser {
         const acores    = this.getCases(caseType.acores);
         const madeira   = this.getCases(caseType.madeira);
 
-        this.parsedDayList.forEach((day: string) => outputMap.set(day, { all: all.get(day), north: north.get(day), center: center.get(day), lvt: lvt.get(day),
+        this.parsedDayList.forEach((day: number) => outputMap.set(day, { all: all.get(day), north: north.get(day), center: center.get(day), lvt: lvt.get(day),
                                                                          alentejo: alentejo.get(day), algarve: algarve.get(day), acores: acores.get(day),
                                                                          madeira: madeira.get(day) }));
 
@@ -59,7 +59,7 @@ export class DatasetParser {
      *
      * @returns map containing number of cases by date (the key is day).
      */
-    public getCases(incidenType: string | undefined): Map<string, number> {
+    public getCases(incidenType: string | undefined): Map<number, number> {
         const outputDataMap = new Map();
 
         if (incidenType) {
@@ -80,9 +80,10 @@ export class DatasetParser {
      *
      * @param inputDate date in DD-MM-YYYY format.
      *
-     * @returns converted date in YYYY_MM_DD format.
+     * @returns converted date in YYYYMMDD format.
      */
-    private parseDate(inputDate: string): string {
-        return moment(inputDate, 'DD-MM-YYYY').format('YYYY_MM_DD');
+    private parseDate(inputDate: string): number {
+        const day = moment(inputDate, 'DD-MM-YYYY').format('YYYYMMDD');
+        return Number.parseInt(day, 10);
     }
 }
